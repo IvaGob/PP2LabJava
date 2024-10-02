@@ -12,6 +12,8 @@ import Products.Car;
  */
 public class Main
 {
+    //final String[] carModels = {"Honda","Ford","Suzuki","Mitsubishi","Lanos","Skoda","Chevrolet","BMW","Mercedes"};
+
     /**
      * Головний метод програми
      * @param args Консольні параметри
@@ -22,37 +24,38 @@ public class Main
         System.out.println("Введіть бажану кількість машин: ");
         int n = scanner.nextInt();
         List<Car> cars = createCars(n);
+
         boolean exit  = false;
         while(!exit){
             System.out.println("Введіть номер бажаної умови пошуку:\n" +
-                    "0.Пошук авто за моделлю.\n" +
-                    "1.Пошук авто за моделлю, і які експлуатуються більше n років.\n" +
-                    "2.Пошук автомобілів заданого року випуску з ціною більше вказаної.\n" +
-                    "3.Завершити програму.");
+                    "1.Пошук авто за моделлю.\n" +
+                    "2.Пошук авто за моделлю, і які експлуатуються більше n років.\n" +
+                    "3.Пошук автомобілів заданого року випуску з ціною більше вказаної.\n" +
+                    "4.Завершити програму.");
             int choice = scanner.nextInt();
             String model;
             switch (choice){
 
-                case 0:
+                case 1:
                     System.out.println("Введіть модель авто:");
                     model = scanner.next();
                     printCarsList(getCarsByModel(cars,model));
                     break;
-                case 1:
+                case 2:
                     System.out.println("Введіть модель авто:");
                     model = scanner.next();
                     System.out.println("Введіть кількість років експлуатації:");
                     int ExYears = scanner.nextInt();
                     printCarsList(getCarsByModelAndYears(cars,model,ExYears));
                     break;
-                case 2:
+                case 3:
                     System.out.println("Введіть рік випуску:");
                     int prodYear = scanner.nextInt();
                     System.out.println("Введіть ціну:");
                     int price = scanner.nextInt();
                     printCarsList(getCarsByYearAndPrice(cars,prodYear,price));
                     break;
-                case 3:
+                case 4:
                     exit = true;
                     break;
                 default:
@@ -96,7 +99,7 @@ public class Main
     public static List<Car> getCarsByModel(List<Car> cars, String model) {
         List<Car> result = new ArrayList<>();
         for (Car car : cars) {
-            if (car.getModel().equals(model)) {
+            if (car.getModel().equalsIgnoreCase(model)) {
                 result.add(car);
             }
         }
@@ -115,7 +118,7 @@ public class Main
         List<Car> result = new ArrayList<>();
         int currentYear = java.time.Year.now().getValue();
         for (Car car : cars) {
-            if (car.getModel().equals(model) && (currentYear - car.getYear() > years)) {
+            if (car.getModel().equalsIgnoreCase(model) && (currentYear - car.getYear() > years)) {
                 result.add(car);
             }
         }
